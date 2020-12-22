@@ -54,3 +54,36 @@ Events:
 Созданы replicaset и deployment для сервиса paymentservice
 Для paymentservice созданы деплойменты для раскатки по стратегии blue|green и reverse
 Найден и отредактирован манифест DaemonSet для node-exporter так, чтобы стартовал на всех нодах, включая мастер-ноды
+
+## HW3
+
+
+## HW4
+
+Создали деплоймент веб-пода
+Создали Service (ClusterIP) для веб-подов
+Включили IPVS в minikube, дропнули правила iptables, поскольку включение ipvs автоматом не чистит мусор (при включении на горячую)
+Установили MetalLB:
+~~~~
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/namespace.yaml
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/metallb.yaml
+kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
+~~~~
+Добавили на рабочей станции маршрут в ВМ minikube
+~~~~
+sudo ip route add 172.17.255.0/24 via 192.168.49.2
+~~~~
+Добавили манифесты сервисов для проброса dns в coredns с шарингом IP
+
+
+Установили Ingress:
+~~~~
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/baremetal/deploy.yaml
+~~~~
+
+### 4 со *
+Установлен dashboard
+~~~~
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.1.0/aio/deploy/recommended.yaml
+~~~~
+Написано правило для ингресса для пробрасывания запросов снаружи на сервис дашборда
