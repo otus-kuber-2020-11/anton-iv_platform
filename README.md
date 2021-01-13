@@ -87,3 +87,28 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/mast
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.1.0/aio/deploy/recommended.yaml
 ~~~~
 Написано правило для ингресса для пробрасывания запросов снаружи на сервис дашборда
+
+
+## HW5
+
+Установили Helm3, добавили репозиторий stable:
+~~~~
+helm repo add stable https://charts.helm.sh/stable
+~~~~
+
+Создали namespace и release nginx-ingress:
+~~~~
+kubectl create ns nginx-ingress
+helm upgrade --install nginx-ingress stable/nginx-ingress --wait --namespace=nginx-ingress --version=1.41.3
+~~~~
+Добавили репозиторий с cert-manager, создали CRD:
+~~~~
+helm repo add jetstack https://charts.jetstack.io
+kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.16.1/cert-manager.crds.yaml
+~~~~
+Установили cert-manager:
+~~~~
+kubectl create ns cert-manager
+helm upgrade --install cert-manager jetstack/cert-manager --wait --namespace=cert-manager --version=0.16.1
+~~~~
+Добавили манифест для ClusterIssuer по https://cert-manager.io/docs/configuration/acme/

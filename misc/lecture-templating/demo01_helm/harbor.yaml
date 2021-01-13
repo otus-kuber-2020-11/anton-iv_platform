@@ -1,0 +1,13 @@
+expose:
+  type: ingress
+  tls:
+    enabled: false
+  ingress:
+    hosts:
+      core: harbor.34.69.35.200.nip.io
+    annotations:
+      kubernetes.io/ingress.class: nginx
+notary:
+  enabled: false
+
+harborAdminPassword: "admin"

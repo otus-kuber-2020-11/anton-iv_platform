@@ -1,0 +1,32 @@
+environments:
+  develop:
+    values:
+      - domain: dev.34.69.35.200.nip.io
+  production:
+    values:
+      - domain: 34.69.35.200.xip.io
+
+repositories:
+- name: stable
+  url: https://kubernetes-charts.storage.googleapis.com
+- name: harbor
+  url: https://helm.goharbor.io
+
+templates:
+  template: &template
+    missingFileHandler: Info
+    values:
+    - ./values/{{`{{ .Release.Name }}`}}.yaml.gotmpl
+
+releases:
+- name: nginx-ingress
+  chart: stable/nginx-ingress
+  namespace: nginx-ingress
+  version: 1.41.3
+  <<: *template
+
+- name: harbor
+  chart: harbor/harbor
+  namespace: harbor
+  version: 1.4.2
+  <<: *template
