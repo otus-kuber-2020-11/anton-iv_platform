@@ -30,4 +30,7 @@ helm upgrade --install hipster-shop kubernetes-templating/hipster-shop --namespa
 `kubecfg
 helm delete hipster-shop -n hipster-shop
 helm upgrade --install hipster-shop kubernetes-templating/hipster-shop --namespace hipster-shop
+
+`install kubecfg
+kubecfg update services.jsonnet --namespace hipster-shop
 ~~~~
